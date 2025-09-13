@@ -34,11 +34,14 @@ function updateTime() {
     display.textContent = formatTime(elapsedTime);
     lapStart = display.textContent;
 
-    document.getElementById("laps").lastChild().innerHTML = `<div class="lapcontainer">
+    const myList = document.getElementById('laps');
+    if (myList && myList.firstElementChild) {
+        myList.firstElementChild.innerHTML = `<div class="lapcontainer">
                 <p>`+ lapcounter + `</p>
                 <p>`+ formatTime(elapsedTime - prevLapEnd) + `</p>
-                
-            </div > `
+                <p>`+ lapStart + `</p>
+            </div > `;
+    }
     // totalTime = startTime + elapsedTime;
     // lapEnd = formatTime(totalTime);
 }
@@ -79,15 +82,35 @@ function resetMyWatch() {
 }
 
 function trackMyWatch() {
-    const li = document.createElement("li");
     lapcounter++;
-    // li.textContent = display.textContent;
-    li.innerHTML = `<div class="lapcontainer">
-                <p>`+ lapcounter + `</p>
-                <p>`+ formatTime(elapsedTime - prevLapEnd) + `</p>
-                
-            </div > `
-    lapsList.prepend(li);
+    if (lapcounter == 1) {
+        const li = document.createElement("li");
+        // li.textContent = display.textContent;
+        li.innerHTML = `<div class="lapcontainer">
+                    <p>`+ lapcounter + `</p>
+                    <p>`+ formatTime(elapsedTime - prevLapEnd) + `</p>
+                    <p>`+ lapStart + `</p>
+                </div > `
+        lapsList.prepend(li);
+        lapcounter++;
+        const li2 = document.createElement("li");
+        // li.textContent = display.textContent;
+        li2.innerHTML = `<div class="lapcontainer">
+                    <p>`+ lapcounter + `</p>
+                    <p>`+ formatTime(elapsedTime - prevLapEnd) + `</p>
+                    <p>`+ lapStart + `</p>
+                </div > `
+        lapsList.prepend(li2);
+    } else {
+        const li = document.createElement("li");
+        // li.textContent = display.textContent;
+        li.innerHTML = `<div class="lapcontainer">
+                    <p>`+ lapcounter + `</p>
+                    <p>`+ formatTime(elapsedTime - prevLapEnd) + `</p>
+                    <p>`+ lapStart + `</p>
+                </div > `
+        lapsList.prepend(li);
+    }
     resetBtn.textContent = 'Lap';
     if (prevLapEnd < elapsedTime) {
         prevLapEnd = elapsedTime;
