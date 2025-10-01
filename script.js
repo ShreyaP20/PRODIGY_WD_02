@@ -42,50 +42,51 @@ function updateTime() {
                 <p>`+ lapStart + `</p>
             </div > `;
     }
-    // totalTime = startTime + elapsedTime;
-    // lapEnd = formatTime(totalTime);
+
 }
 
+// Start stopwatch
 function startMyWatch() {
     startTime = Date.now() - elapsedTime;
     timerInterval = setInterval(updateTime, 10);
-    startBtn.textContent = 'Stop';
+    startBtn.textContent = 'Pause';
     resetBtn.textContent = 'Lap';
     running = true;
 }
 
+// Stop stopwatch
 function stopMyWatch() {
     clearInterval(timerInterval);
     startBtn.textContent = 'Start';
     resetBtn.textContent = 'Reset';
     running = false;
 }
-// Start stopwatch
+
+// Start/Stop button
 startBtn.addEventListener("click", () => {
     if (running) {
-        stopMyWatch();
-
+        stopMyWatch();// Pause
     }
     else {
-        startMyWatch();
-
+        startMyWatch();// Start
     }
 
 });
 
+// Reset button
 function resetMyWatch() {
     clearInterval(timerInterval);
     elapsedTime = 0;
+    prevLapEnd = 0;
     display.textContent = "00:00.00";
     lapsList.innerHTML = "";
     lapcounter = 0;
 }
-
+// Lap button
 function trackMyWatch() {
     lapcounter++;
     if (lapcounter == 1) {
         const li = document.createElement("li");
-        // li.textContent = display.textContent;
         li.innerHTML = `<div class="lapcontainer">
                     <p>`+ lapcounter + `</p>
                     <p>`+ formatTime(elapsedTime - prevLapEnd) + `</p>
@@ -94,7 +95,6 @@ function trackMyWatch() {
         lapsList.prepend(li);
         lapcounter++;
         const li2 = document.createElement("li");
-        // li.textContent = display.textContent;
         li2.innerHTML = `<div class="lapcontainer">
                     <p>`+ lapcounter + `</p>
                     <p>`+ formatTime(elapsedTime - prevLapEnd) + `</p>
@@ -103,7 +103,6 @@ function trackMyWatch() {
         lapsList.prepend(li2);
     } else {
         const li = document.createElement("li");
-        // li.textContent = display.textContent;
         li.innerHTML = `<div class="lapcontainer">
                     <p>`+ lapcounter + `</p>
                     <p>`+ formatTime(elapsedTime - prevLapEnd) + `</p>
@@ -121,10 +120,8 @@ resetBtn.addEventListener("click", () => {
 
     if (running) {
         trackMyWatch();
-
     }
     else {
         resetMyWatch();
     }
-
 });
